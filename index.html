@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Polisportiva Baragiano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue-dark: #06122b;
+      --blue: #17398f;
+      --blue-light: #2e5cff;
+      --yellow: #f2cf00;
+      --white: #ffffff;
+      --muted: rgba(255,255,255,0.72);
+      --border: rgba(255,255,255,0.10);
+      --green: #22c55e;
+      --green-dark: #16a34a;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: var(--blue-dark);
+      color: var(--white);
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    .container {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .intro {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background:
+        radial-gradient(circle at center, rgba(24,75,255,0.22), transparent 20%),
+        linear-gradient(135deg, #01040c 0%, #04112a 35%, #0a2154 68%, #f2cf00 160%);
+      overflow: hidden;
+      transition: opacity 0.9s ease, visibility 0.9s ease;
+    }
+
+    .intro.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-grid {
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+      background-size: 30px 30px;
+      opacity: 0.2;
+    }
+
+    .ring-outline {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .ring-outline.one { width: 42rem; height: 42rem; }
+    .ring-outline.two { width: 30rem; height: 30rem; border-color: rgba(242,207,0,0.35); }
+    .ring-outline.three { width: 20rem; height: 20rem; border-color: rgba(46,92,255,0.45); }
+
+    .pulse-ring {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 11rem;
+      height: 11rem;
+      transform: translate(-50%, -50%) scale(0.2);
+      border: 1px solid rgba(242,207,0,0.35);
+      border-radius: 50%;
+      animation: pulseRing 2.6s ease-out infinite;
+    }
+
+    .pulse-ring:nth-child(2) { animation-delay: .28s; }
+    .pulse-ring:nth-child(3) { animation-delay: .56s; }
+    .pulse-ring:nth-child(4) { animation-delay: .84s; }
+    .pulse-ring:nth-child(5) { animation-delay: 1.12s; }
+
+    @keyframes pulseRing {
+      0% { transform: translate(-50%, -50%) scale(0.2); opacity: .8; }
+      100% { transform: translate(-50%, -50%) scale(2.6); opacity: 0; }
+    }
+
+    .particle {
+      position: absolute;
+      bottom: -12%;
+      border-radius: 999px;
+      background: linear-gradient(to top, #f2cf00, #ffffff, #2e5cff);
+      filter: blur(1px);
+      animation: particleUp linear infinite;
+      opacity: 0;
+    }
+
+    @keyframes particleUp {
+      0% { transform: translateY(220px) rotate(0deg); opacity: 0; }
+      15% { opacity: .8; }
+      100% { transform: translateY(-900px) rotate(260deg); opacity: 0; }
+    }
+
+    .intro-center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      z-index: 20;
+      animation: introAppear 1.3s cubic-bezier(.16,1,.3,1) forwards;
+    }
+
+    @keyframes introAppear {
+      from { opacity: 0; transform: translate(-50%, -50%) scale(.35) rotate(-12deg); filter: blur(16px); }
+      to { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); filter: blur(0); }
+    }
+
+    .intro-logo-box {
+      width: 220px;
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 36px;
+      padding: 18px;
+      box-shadow: 0 0 90px rgba(242,207,0,0.45);
+      animation: floatLogo 2.8s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .intro-logo-box::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      box-shadow: inset 0 0 30px rgba(255,255,255,0.3);
+      border-radius: 36px;
+    }
+
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .intro-chip {
+      display: inline-flex;
+      margin-top: 30px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(242,207,0,0.35);
+      background: rgba(242,207,0,0.10);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .45em;
+      text-transform: uppercase;
+      color: var(--yellow);
+    }
+
+    .intro-title {
+      margin: 20px 0 0;
+      font-size: clamp(3rem, 9vw, 6.2rem);
+      line-height: .9;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .intro-title span {
+      display: block;
+      background: linear-gradient(to right, #ffffff, #f2cf00, #2e5cff);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .intro-sub {
+      margin-top: 14px;
+      font-size: clamp(.85rem, 2vw, 1rem);
+      font-weight: 800;
+      letter-spacing: .55em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .intro-progress {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(to right, #f2cf00, #ffffff, #2e5cff);
+      transform-origin: left;
+      animation: loadOut 4.1s linear forwards;
+    }
+
+    @keyframes loadOut {
+      from { transform: scaleX(1); }
+      to { transform: scaleX(0); }
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      background:
+        radial-gradient(circle at top right, rgba(242,207,0,0.25), transparent 22%),
+        radial-gradient(circle at left, rgba(31,77,255,0.35), transparent 30%),
+        linear-gradient(135deg, #040b18 0%, #071836 45%, #0a1f46 100%);
+      padding-top: 118px;
+    }
+
+    .hero-glow-left,
+    .hero-glow-right {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: .9;
+    }
+
+    .hero-glow-left {
+      width: 280px; height: 280px; left: -60px; top: 30px; background: rgba(242,207,0,0.45);
+    }
+    .hero-glow-right {
+      width: 360px; height: 360px; right: -60px; top: -50px; background: rgba(30,79,255,0.45);
+    }
+
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 18px 0;
+      background: rgba(6,18,43,0.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+    }
+
+    .brand-small {
+      font-size: 11px;
+      letter-spacing: .35em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin: 0 0 3px;
+      font-weight: 700;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 1.1rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    nav {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      font-size: .95rem;
+      font-weight: 500;
+      color: rgba(255,255,255,0.82);
+      transition: .25s;
+    }
+
+    nav a:hover { color: var(--yellow); }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 40px;
+      align-items: center;
+      padding: 10px 0 80px;
+    }
+
+    .hero-chip {
+      display: inline-flex;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(242,207,0,0.30);
+      background: rgba(242,207,0,0.10);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: #f6db46;
+    }
+
+    .hero-title {
+      margin: 18px 0 0;
+      font-size: clamp(3.3rem, 8vw, 6rem);
+      line-height: .9;
+      text-transform: uppercase;
+      font-weight: 900;
+    }
+
+    .hero-title span {
+      display: block;
+      color: var(--yellow);
+      text-shadow: 0 0 30px rgba(242,207,0,0.35);
+    }
+
+    .hero-text {
+      margin-top: 24px;
+      max-width: 700px;
+      color: rgba(255,255,255,0.78);
+      font-size: 1.08rem;
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 24px;
+      border-radius: 999px;
+      font-size: .9rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: .04em;
+      transition: .25s ease;
+    }
+
+    .btn-primary {
+      background: var(--yellow);
+      color: var(--blue-dark);
+      box-shadow: 0 16px 40px rgba(242,207,0,0.25);
+    }
+
+    .btn-primary:hover,
+    .btn-outline:hover,
+    .btn-tuttocampo:hover,
+    .card:hover,
+    .news-side article:hover,
+    .gallery-item:hover,
+    .timeline-item:hover {
+      transform: translateY(-4px);
+    }
+
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+    }
+
+    .btn-outline:hover {
+      color: var(--yellow);
+      border-color: rgba(242,207,0,0.40);
+    }
+
+    .btn-tuttocampo {
+      background: var(--green);
+      color: #052012;
+      box-shadow: 0 16px 40px rgba(34,197,94,0.28);
+    }
+
+    .btn-tuttocampo:hover {
+      background: var(--green-dark);
+      color: #ffffff;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 760px;
+      margin-top: 30px;
+    }
+
+    .stat-box,
+    .card,
+    .news-side article,
+    .timeline-item,
+    .section-main,
+    .gallery-item {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
+      transition: .25s ease;
+    }
+
+    .stat-box {
+      border-radius: 20px;
+      padding: 18px;
+    }
+
+    .stat-label,
+    .section-label {
+      font-size: 12px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.50);
+    }
+
+    .stat-value {
+      margin-top: 10px;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--yellow);
+      text-transform: uppercase;
+    }
+
+    .hero-media {
+      position: relative;
+    }
+
+    .hero-media-glow {
+      position: absolute;
+      inset: -24px;
+      border-radius: 32px;
+      background: rgba(242,207,0,0.20);
+      filter: blur(55px);
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      border: 1px solid var(--border);
+      background: #09142a;
+      box-shadow: 0 22px 60px rgba(0,0,0,0.30);
+    }
+
+    .hero-card img {
+      width: 100%;
+      height: 620px;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .hero-card::after,
+    .news-main::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, #06122b, rgba(6,18,43,.3), transparent);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(0,0,0,0.30);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-badge-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.95);
+      padding: 4px;
+      overflow: hidden;
+    }
+
+    .hero-badge p { margin: 0; }
+    .hero-badge .small { font-size: 11px; text-transform: uppercase; letter-spacing: .3em; color: var(--yellow); }
+    .hero-badge .big { font-size: 14px; font-weight: 700; text-transform: uppercase; }
+
+    .hero-caption {
+      position: absolute;
+      inset-inline: 0;
+      bottom: 0;
+      z-index: 2;
+      padding: 30px;
+    }
+
+    .hero-caption .small,
+    .news-main .small { font-size: 12px; letter-spacing: .35em; text-transform: uppercase; color: var(--yellow); margin: 0; }
+    .hero-caption .big {
+      margin: 10px 0 0;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    section { border-bottom: 1px solid var(--border); }
+    .section { padding: 70px 0 80px; }
+    .section.alt { background: #07152d; }
+    .section.alt-2 { background: #081a39; }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .section-head h3 {
+      margin: 10px 0 0;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: .95;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .section-right-note {
+      font-size: .82rem;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+      text-transform: uppercase;
+      letter-spacing: .25em;
+      color: rgba(255,255,255,0.60);
+    }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: 1.18fr .82fr;
+      gap: 24px;
+    }
+
+    .news-main {
+      position: relative;
+      overflow: hidden;
+      border-radius: 32px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .news-main img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+    }
+
+    .news-main-content {
+      position: absolute;
+      inset-inline: 0;
+      bottom: 0;
+      z-index: 2;
+      padding: 30px;
+    }
+
+    .news-main h4 {
+      margin: 14px 0 0;
+      max-width: 900px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      line-height: .98;
+      text-transform: uppercase;
+    }
+
+    .news-main p:last-child {
+      margin-top: 16px;
+      max-width: 760px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.7;
+    }
+
+    .news-side {
+      display: grid;
+      gap: 16px;
+    }
+
+    .news-side article,
+    .timeline-item,
+    .card {
+      border-radius: 26px;
+      padding: 22px;
+    }
+
+    .news-side .small,
+    .timeline-item .small,
+    .card .small {
+      font-size: 12px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin: 0;
+    }
+
+    .news-side h4,
+    .timeline-item h4,
+    .card h4 {
+      margin: 14px 0 0;
+      font-size: 1.35rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      line-height: 1.1;
+    }
+
+    .news-side p,
+    .timeline-item p,
+    .card p {
+      margin: 14px 0 0;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.7;
+      font-size: .96rem;
+    }
+
+    .cards-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .card-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 22px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      color: rgba(255,255,255,0.70);
+      font-size: .92rem;
+    }
+
+    .timeline-wrap {
+      display: grid;
+      grid-template-columns: .8fr 1.2fr;
+      gap: 28px;
+    }
+
+    .section-main {
+      border-radius: 30px;
+      padding: 26px;
+    }
+
+    .section-main p {
+      margin: 18px 0 0;
+      color: rgba(255,255,255,0.76);
+      line-height: 1.8;
+      font-size: 1rem;
+      max-width: 560px;
+    }
+
+    .timeline-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .timeline-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .timeline-item > div:last-child {
+      max-width: 540px;
+      color: rgba(255,255,255,0.72);
+      line-height: 1.7;
+    }
+
+    .gladiators {
+      background: linear-gradient(135deg, #f2cf00 0%, #e8c600 50%, #f2cf00 100%);
+      color: var(--blue-dark);
+    }
+
+    .gladiators-grid {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .gladiators .section-label { color: var(--blue); }
+    .gladiators h3 {
+      margin: 10px 0 0;
+      font-size: clamp(2.6rem, 6vw, 4.8rem);
+      line-height: .95;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .gladiators p {
+      margin-top: 18px;
+      max-width: 560px;
+      color: rgba(6,18,43,0.85);
+      line-height: 1.8;
+    }
+
+    .gladiators-chip {
+      display: inline-flex;
+      margin-top: 22px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(23,57,143,0.2);
+      background: rgba(255,255,255,0.40);
+      font-size: .84rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .25em;
+      color: var(--blue);
+    }
+
+    .gladiators-media {
+      overflow: hidden;
+      border-radius: 32px;
+      border: 1px solid rgba(23,57,143,0.15);
+      background: rgba(255,255,255,0.30);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.14);
+      position: relative;
+    }
+
+    .gladiators-media img {
+      width: 100%;
+      height: 380px;
+      object-fit: cover;
+    }
+
+    .gladiators-media::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(242,207,0,0.85), transparent 55%);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .gallery-item {
+      overflow: hidden;
+      border-radius: 32px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      transition: transform .5s ease;
+    }
+
+    .gallery-item:hover img { transform: scale(1.05); }
+
+    .site-credit {
+      border-top: 1px solid var(--border);
+      background: #040b18;
+      padding: 22px 16px;
+      text-align: center;
+      color: rgba(255,255,255,0.62);
+      font-size: .92rem;
+      letter-spacing: .03em;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity .8s ease, transform .8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 980px) {
+      nav { display: none; }
+      .hero {
+        padding-top: 108px;
+      }
+      .hero-content,
+      .news-grid,
+      .timeline-wrap,
+      .gladiators-grid {
+        grid-template-columns: 1fr;
+      }
+      .cards-3,
+      .stats,
+      .gallery-grid { grid-template-columns: 1fr; }
+      .timeline-item {
+        flex-direction: column;
+      }
+      .hero-card img,
+      .news-main img,
+      .gladiators-media img,
+      .gallery-item img {
+        height: auto;
+        min-height: 280px;
+      }
+      .intro-logo-box {
+        width: 170px;
+        height: 170px;
+      }
+      .ring-outline.one { width: 28rem; height: 28rem; }
+      .ring-outline.two { width: 20rem; height: 20rem; }
+      .ring-outline.three { width: 13rem; height: 13rem; }
+    }
+
+    @media (max-width: 640px) {
+      .section { padding: 56px 0 62px; }
+      .hero-content { padding-bottom: 60px; }
+      .hero-caption, .news-main-content { padding: 22px; }
+      .news-main h4 { font-size: 1.8rem; }
+      .intro-sub { letter-spacing: .3em; }
+      .intro-chip { letter-spacing: .25em; }
+      .site-credit {
+        font-size: .84rem;
+        line-height: 1.7;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="intro" id="intro">
+    <div class="intro-grid"></div>
+    <div class="ring-outline one"></div>
+    <div class="ring-outline two"></div>
+    <div class="ring-outline three"></div>
+
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+    <div class="pulse-ring"></div>
+
+    <div id="particles"></div>
+
+    <div class="intro-center">
+      <div class="intro-logo-box">
+        <img src="immagini/logo.png" alt="Logo Polisportiva Baragiano">
+      </div>
+      <div class="intro-chip">Welcome to Baragiano</div>
+      <h1 class="intro-title">Polisportiva <span>Baragiano</span></h1>
+      <div class="intro-sub">Una entrata fuori categoria</div>
+    </div>
+
+    <div class="intro-progress"></div>
+  </div>
+
+  <header>
+    <div class="container nav-wrap">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="immagini/logo.png" alt="Logo Polisportiva Baragiano">
+        </div>
+        <div>
+          <p class="brand-small">Sito ufficiale</p>
+          <h1 class="brand-title">Polisportiva Baragiano</h1>
+        </div>
+      </div>
+
+      <nav>
+        <a href="#news">Notizie</a>
+        <a href="#storia">Storia</a>
+        <a href="#partite">Percorso</a>
+        <a href="#gladiators">Gladiators</a>
+        <a href="#gallery">Gallery</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-glow-left"></div>
+    <div class="hero-glow-right"></div>
+
+    <div class="container hero-content">
+      <div class="reveal">
+        <div class="hero-chip">2026/27 · promozione · zero sconfitte</div>
+        <h2 class="hero-title">Una squadra <span>fuori categoria</span></h2>
+        <p class="hero-text">
+          La Polisportiva Baragiano è una squadra giovane ma già leggendaria: nata in due anni, partita dalla Seconda Categoria, salita in Prima nella scorsa stagione e quest’anno campione con zero sconfitte. Adesso inizia il viaggio verso la Promozione 2026/27.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#storia" class="btn btn-primary">Scopri la favola</a>
+          <a href="https://www.tuttocampo.it/Basilicata/PrimaCategoria/GironeA/Squadra/Polisportiva-Baragiano/" target="_blank" rel="noreferrer" class="btn btn-tuttocampo">Collegamento TuttoCampo</a>
+        </div>
+
+        <div class="stats">
+          <div class="stat-box">
+            <div class="stat-label">Categoria iniziale</div>
+            <div class="stat-value">Seconda</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Stagione 2025/26</div>
+            <div class="stat-value">Prima</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Stagione 2026/27</div>
+            <div class="stat-value">Promozione</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-media reveal">
+        <div class="hero-media-glow"></div>
+        <div class="hero-card">
+          <img src="immagini/hero.png" alt="Squadra Polisportiva Baragiano">
+          <div class="hero-badge">
+            <div class="hero-badge-logo">
+              <img src="immagini/logo.png" alt="Logo club">
+            </div>
+            <div>
+              <p class="small">Baragiano</p>
+              <p class="big">Orgoglio gialloblù</p>
+            </div>
+          </div>
+          <div class="hero-caption">
+            <p class="small">Imbattuti</p>
+            <p class="big">Promozione conquistata</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt" id="news">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-label">Media</div>
+          <h3>Ultime notizie</h3>
+        </div>
+        <div class="section-right-note">Polisportiva Baragiano</div>
+      </div>
+
+      <div class="news-grid">
+        <article class="news-main reveal">
+          <img src="immagini/news-main.jpg" alt="Notizia in evidenza">
+          <div class="news-main-content">
+            <p class="small">In evidenza</p>
+            <h4>La stagione perfetta che ha portato Baragiano in Promozione</h4>
+            <p>Squadra, società e tifoseria hanno costruito qualcosa di esplosivo: risultati, identità e una passione che si vede in ogni immagine.</p>
+          </div>
+        </article>
+
+        <div class="news-side">
+          <article class="reveal">
+            <p class="small">Storia</p>
+            <h4>Due anni, due salti di categoria</h4>
+            <p>La Polisportiva Baragiano è nata da poco ma ha già scritto una storia incredibile: partenza dalla Seconda Categoria, salto in Prima e ora approdo in Promozione.</p>
+          </article>
+          <article class="reveal">
+            <p class="small">Record</p>
+            <h4>Campionato vinto con 0 sconfitte</h4>
+            <p>Una stagione perfetta, dominata dall’inizio alla fine, chiusa senza mai perdere e con una promozione meritata.</p>
+          </article>
+          <article class="reveal">
+            <p class="small">Tifoseria</p>
+            <h4>L’anima del club: i GLADIATORS</h4>
+            <p>Passione, appartenenza e identità. I GLADIATORS accompagnano la squadra con energia e orgoglio in ogni sfida.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="partite">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-label">Percorso</div>
+          <h3>Dove tutto è cambiato</h3>
+        </div>
+        <a href="https://www.tuttocampo.it/Basilicata/PrimaCategoria/GironeA/Squadra/Polisportiva-Baragiano/" target="_blank" rel="noreferrer" class="section-right-note">Vai su TuttoCampo</a>
+      </div>
+
+      <div class="cards-3">
+        <article class="card reveal">
+          <p class="small">2024/25</p>
+          <h4>Inizio del progetto</h4>
+          <p>Seconda Categoria</p>
+          <div class="card-row"><span>Sede</span><span>Baragiano</span></div>
+        </article>
+        <article class="card reveal">
+          <p class="small">2025/26</p>
+          <h4>Promozione conquistata</h4>
+          <p>Prima Categoria</p>
+          <div class="card-row"><span>Sede</span><span>Baragiano</span></div>
+        </article>
+        <article class="card reveal">
+          <p class="small">2026/27</p>
+          <h4>Nuovo capitolo</h4>
+          <p>Promozione</p>
+          <div class="card-row"><span>Sede</span><span>Basilicata</span></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section alt-2" id="storia">
+    <div class="container timeline-wrap">
+      <div class="section-main reveal">
+        <div class="section-label">Identità</div>
+        <h3>La favola gialloblù</h3>
+        <p>
+          Questa non è solo una squadra. È un simbolo di crescita immediata, orgoglio locale e mentalità vincente. Colori giallo e blu, spirito combattivo e una storia già capace di emozionare chiunque entri su questa pagina.
+        </p>
+      </div>
+
+      <div class="timeline-list">
+        <article class="timeline-item reveal">
+          <div>
+            <p class="small">Anno 1</p>
+            <h4>Nasce la Polisportiva Baragiano</h4>
+          </div>
+          <div>Un progetto giovane, costruito per rappresentare il paese, il territorio e una mentalità vincente.</div>
+        </article>
+        <article class="timeline-item reveal">
+          <div>
+            <p class="small">Anno 2</p>
+            <h4>Dalla Seconda alla Prima Categoria</h4>
+          </div>
+          <div>La squadra cresce subito e conquista il primo salto di categoria, dimostrando solidità e ambizione.</div>
+        </article>
+        <article class="timeline-item reveal">
+          <div>
+            <p class="small">Oggi</p>
+            <h4>Promozione da imbattuti</h4>
+          </div>
+          <div>Il campionato viene vinto con zero sconfitte: una cavalcata storica che apre le porte alla stagione 2026/27 in Promozione.</div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section gladiators" id="gladiators">
+    <div class="container gladiators-grid">
+      <div class="reveal">
+        <div class="section-label">Ultras</div>
+        <h3>GLADIATORS</h3>
+        <p>
+          I GLADIATORS sono il cuore caldo del Baragiano. Danno voce, colore ed energia al club. Nel sito diventano una parte centrale dell’identità visiva, proprio come sul campo e sugli spalti.
+        </p>
+        <div class="gladiators-chip">Passione · appartenenza · orgoglio</div>
+      </div>
+
+      <div class="gladiators-media reveal">
+        <img src="immagini/gladiators.jpg" alt="Tifosi Polisportiva Baragiano">
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="gallery" style="border-bottom:none;">
+    <div class="container">
+      <div class="section-head reveal">
+        <div>
+          <div class="section-label">Visual</div>
+          <h3>Gallery ufficiale</h3>
+        </div>
+        <div class="section-right-note">Squadra · tifoseria · identità</div>
+      </div>
+
+      <div class="gallery-grid">
+        <div class="gallery-item reveal"><img src="immagini/gallery-1.jpg" alt="Gallery 1"></div>
+        <div class="gallery-item reveal"><img src="immagini/gallery-2.jpg" alt="Gallery 2"></div>
+        <div class="gallery-item reveal"><img src="immagini/gallery-3.jpg" alt="Gallery 3"></div>
+        <div class="gallery-item reveal"><img src="immagini/gallery-4.jpg" alt="Gallery 4"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-credit">
+    © 2026 Polisportiva Baragiano · Sito creato da Mattia De Leonardis
+  </footer>
+
+  <script>
+    const intro = document.getElementById('intro');
+    setTimeout(() => intro.classList.add('hidden'), 4300);
+
+    const particlesWrap = document.getElementById('particles');
+    for (let i = 0; i < 34; i++) {
+      const p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = ((i * 97) % 100) + '%';
+      p.style.width = (4 + (i % 5) * 2) + 'px';
+      p.style.height = (40 + (i % 7) * 18) + 'px';
+      p.style.animationDuration = (2.5 + (i % 6) * 0.35) + 's';
+      p.style.animationDelay = ((i % 8) * 0.18) + 's';
+      p.style.opacity = (0.2 + (i % 4) * 0.15);
+      particlesWrap.appendChild(p);
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.16 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
